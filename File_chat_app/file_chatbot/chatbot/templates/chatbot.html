@@ -1,0 +1,216 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en" x-data="app()" x-init="init()">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>File Upload & Chat Interface</title>
+  <script>
+    document.addEventListener('alpine:init', () => {
+      Alpine.store('chat', {
+        sessionId: null    // initialize here so it's never undefined :contentReference[oaicite:0]{index=0}
+      });
+    });
+  </script>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Alpine.js CDN -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="h-screen flex">
+    
+  <!-- Left Panel: File Upload -->
+  <div class="w-1/2 bg-gray-100 p-6 flex flex-col items-center justify-center"
+       x-on:dragover.prevent="dragging = true"
+       x-on:dragleave.prevent="dragging = false"
+       x-on:drop.prevent="handleDrop($event)">
+    <div class="w-full border-4 border-dashed rounded-lg p-10 text-center"
+         :class="dragging ? 'border-blue-500 bg-blue-100' : 'border-gray-300'">
+      <p class="text-gray-700 text-lg">Drag & Drop File Here</p>
+      <p class="text-gray-500 text-sm mt-2">or</p>
+      <label class="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
+        Upload File
+        <input type="file" class="hidden" x-ref="fileInput" @change="handleFile($event)">
+      </label>
+    </div>
+    <template x-if="fileName">
+      <p class="mt-4 text-green-600 font-semibold">Selected File: <span x-text="fileName"></span></p>
+    </template>
+    <button @click="submitFile"
+            class="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+      Submit
+    </button>
+  </div>
+
+  <!-- Right Panel: Chat Interface -->
+  <div class="w-1/2 p-6 flex flex-col">
+    <h2 class="text-2xl font-bold mb-4">Chat</h2>
+    <div class="flex-1 border border-gray-300 rounded p-4 overflow-y-auto" id="chatWindow">
+      <template x-for="(msg, index) in messages" :key="index">
+        <div :class="msg.sender === 'user' ? 'text-right' : 'text-left'" class="mb-2">
+          <span :class="msg.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'"
+                class="inline-block px-4 py-2 rounded">
+            <span x-text="msg.text"></span>
+          </span>
+        </div>
+      </template>
+    </div>
+    <div class="mt-4 flex">
+      <input type="text" x-model="userInput" @keydown.enter="sendMessage"
+             class="flex-1 border border-gray-300 rounded px-4 py-2 mr-2" placeholder="Ask a question...">
+      <button @click="sendMessage"
+              class="bg-blue-500 text-white px-4 py-2 rounded">Send</button>
+    </div>
+  </div>
+  
+  
+  <!-- Alpine.js Component -->
+  <script>
+    function app() {
+      return {
+        dragging: false,
+        fileName: '',
+        selectedFile: null,
+        messages: [],
+        userInput: '',
+        init() {
+          // Initialization logic if needed
+        },
+        handleDrop(event) {
+          this.dragging = false;
+          const files = event.dataTransfer.files;
+          if (files.length) {
+            this.processFile(files[0]);
+          }
+        },
+        handleFile(event) {
+          const files = event.target.files;
+          if (files.length) {
+            this.processFile(files[0]);
+          }
+        },
+        processFile(file) {
+          this.fileName = file.name;
+          this.selectedFile = file;
+          // Further file processing can be implemented here
+        },
+        submitFile() {
+            if (!this.selectedFile) {
+                alert('Please select a file before submitting.');
+                return;
+            }
+
+            const username = 'Raj';
+            const password = 'tango1234';
+            const credentials = btoa(`${username}:${password}`);
+
+            const formData = new FormData();
+            formData.append('title', 'Sample Document');
+            formData.append('file', this.selectedFile);
+            formData.append('content_type', 'application/pdf');
+
+            fetch('/api/documents/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Basic ${credentials}`
+                    // Note: Do not set the 'Content-Type' header manually when using FormData.
+                },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Document upload failed: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(documentData => {
+                const documentId = documentData.id;
+                console.log('Document uploaded successfully:', documentData);
+                alert(`Document uploaded successfully:`);
+                // Now initiate the chat session with the obtained document ID
+                return fetch('/api/chat-sessions/', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Basic ${credentials}`
+                            // 'Content-Type': 'application/json',
+                          
+                        },
+                        body: JSON.stringify({ document: documentId })
+                        });
+                        })
+                        .then(data => {
+                                // Save globally so Send-button handler can read it
+                                Alpine.store('chat').sessionId = data.id;
+                            })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`Chat session creation failed: ${response.statusText}`);
+                            }
+                            return response.json();
+                        })
+                        .then(chatSessionData => {
+                            console.log('Chat session created:', chatSessionData);
+                            alert(`Chat session started! Session ID: ${chatSessionData.id}`);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred during the process.');
+                        });
+                    },
+
+
+        sendMessage() {
+        const message = this.userInput.trim();
+        if (message === '') return;
+
+        // 1) show the user’s message immediately
+        this.messages.push({ sender: 'user', text: message });
+        this.userInput = '';
+
+        // 2) grab the session ID you saved earlier
+        const sessionId = Alpine.store('chat').sessionId;
+        if (!sessionId) {
+            alert('Please start a chat session first.');
+            return;
+        }
+
+        // 3) call your real /ask/ endpoint
+        fetch(`/api/chat-sessions/${sessionId}/ask/`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            // if you need auth:
+            'Authorization': `Basic ${btoa('Raj:tango1234')}`
+            },
+            body: JSON.stringify({ question: message })
+        })
+            .then(res => {
+            if (!res.ok) throw new Error(res.statusText);
+            return res.json();
+            })
+            .then(data => {
+            // 4) push the real bot answer into your chat
+            this.messages.push({ sender: 'bot', text: data.answer });
+            this.$nextTick(() => {
+                const chatWindow = document.getElementById('chatWindow');
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            });
+            })
+            .catch(err => {
+            console.error('Ask API error:', err);
+            this.messages.push({ sender: 'bot', text: 'Sorry, something went wrong.' });
+            this.$nextTick(() => {
+                const chatWindow = document.getElementById('chatWindow');
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            });
+            });
+}
+
+      }
+    }
+  </script>
+
+</body>
+</html>

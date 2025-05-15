@@ -4,66 +4,212 @@ import re
 import pandas as pd
 from PyPDF2 import PdfReader
 import docx
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("document_extraction.log"),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger("document_extraction")
 
 def extract_text_from_file(file_path: str) -> str:
     """Extract text from various file types"""
-    file_extension = os.path.splitext(file_path)[1].lower()
+    if not os.path.exists(file_path):
+        logger.error(f"File not found: {file_path}")
+        raise FileNotFoundError(f"File not found: {file_path}")
     
-    if file_extension == '.pdf':
-        return extract_text_from_pdf(file_path)
-    elif file_extension == '.txt':
-        return extract_text_from_txt(file_path)
-    elif file_extension == '.docx':
-        return extract_text_from_docx(file_path)
-    elif file_extension in ['.csv', '.xlsx', '.xls']:
-        return extract_text_from_tabular(file_path)
-    else:
-        raise ValueError(f"Unsupported file type: {file_extension}")
+    file_extension = os.path.splitext(file_path)[1].lower()
+    file_size = os.path.getsize(file_path) / (1024 * 1024)  # Size in MB
+    
+    logger.info(f"Starting text extraction for file: {file_path}")
+    logger.info(f"File type: {file_extension}, Size: {file_size:.2f} MB")
+    
+    try:
+        if file_extension == '.pdf':
+            text = extract_text_from_pdf(file_path)
+        elif file_extension == '.txt':
+            text = extract_text_from_txt(file_path)
+        elif file_extension == '.docx':
+            text = extract_text_from_docx(file_path)
+        elif file_extension in ['.csv', '.xlsx', '.xls']:
+            text = extract_text_from_tabular(file_path)
+        else:
+            logger.error(f"Unsupported file type: {file_extension}")
+            raise ValueError(f"Unsupported file type: {file_extension}")
+        
+        logger.info(f"Successfully extracted text from {file_path}")
+        logger.debug(f"Extracted text length: {len(text)} characters")
+        return text
+    
+    except Exception as e:
+        logger.error(f"Error extracting text from {file_path}: {str(e)}", exc_info=True)
+        raise
 
 def extract_text_from_pdf(file_path: str) -> str:
     """Extract text from PDF file"""
+    logger.info(f"Extracting text from PDF: {file_path}")
     text = ""
-    with open(file_path, 'rb') as file:
-        pdf_reader = PdfReader(file)
-        for page in pdf_reader.pages:
-            text += page.extract_text() + "\n"
-    return text
+    try:
+        with open(file_path, 'rb') as file:
+            pdf_reader = PdfReader(file)
+            total_pages = len(pdf_reader.pages)
+            logger.info(f"PDF has {total_pages} pages")
+            
+            for i, page in enumerate(pdf_reader.pages):
+                logger.debug(f"Processing page {i+1}/{total_pages}")
+                page_text = page.extract_text()
+                text += page_text + "\n"
+                
+                # Log warning if page has little or no text
+                if len(page_text.strip()) < 10:
+                    logger.warning(f"Page {i+1} appears to have little or no extractable text")
+        
+        logger.info(f"PDF extraction complete for {file_path}")
+        return text
+    except Exception as e:
+        logger.error(f"Failed to extract text from PDF {file_path}: {str(e)}")
+        raise
 
 def extract_text_from_txt(file_path: str) -> str:
     """Extract text from TXT file"""
-    with open(file_path, 'r', encoding='utf-8') as file:
-        return file.read()
+    logger.info(f"Extracting text from TXT file: {file_path}")
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            text = file.read()
+        logger.info(f"TXT extraction complete for {file_path}")
+        return text
+    except UnicodeDecodeError:
+        logger.warning(f"UTF-8 decoding failed for {file_path}, trying with different encodings")
+        try:
+            # Try with a different encoding if UTF-8 fails
+            with open(file_path, 'r', encoding='latin-1') as file:
+                text = file.read()
+            logger.info(f"TXT extraction complete using latin-1 encoding for {file_path}")
+            return text
+        except Exception as e:
+            logger.error(f"Failed to extract text from TXT file {file_path}: {str(e)}")
+            raise
+    except Exception as e:
+        logger.error(f"Failed to extract text from TXT file {file_path}: {str(e)}")
+        raise
 
 def extract_text_from_docx(file_path: str) -> str:
     """Extract text from DOCX file"""
-    doc = docx.Document(file_path)
-    return "\n".join([paragraph.text for paragraph in doc.paragraphs])
+    logger.info(f"Extracting text from DOCX file: {file_path}")
+    try:
+        doc = docx.Document(file_path)
+        paragraph_count = len(doc.paragraphs)
+        logger.info(f"DOCX has {paragraph_count} paragraphs")
+        
+        text = "\n".join([paragraph.text for paragraph in doc.paragraphs])
+        
+        # Log warning if document has little text
+        if len(text.strip()) < 50:
+            logger.warning(f"DOCX file {file_path} appears to have little content")
+            
+        logger.info(f"DOCX extraction complete for {file_path}")
+        return text
+    except Exception as e:
+        logger.error(f"Failed to extract text from DOCX {file_path}: {str(e)}")
+        raise
 
 def extract_text_from_tabular(file_path: str) -> str:
     """Extract text from CSV or Excel file"""
     file_extension = os.path.splitext(file_path)[1].lower()
+    logger.info(f"Extracting text from tabular file ({file_extension}): {file_path}")
     
-    if file_extension == '.csv':
-        df = pd.read_csv(file_path)
-    else:  # Excel files
-        df = pd.read_excel(file_path)
-    
-    # Convert DataFrame to a text representation
-    text = df.to_string(index=False)
-    return text
+    try:
+        if file_extension == '.csv':
+            logger.debug("Reading CSV file")
+            try:
+                df = pd.read_csv(file_path)
+            except UnicodeDecodeError:
+                logger.warning("UTF-8 decoding failed, trying with different encoding")
+                df = pd.read_csv(file_path, encoding='latin-1')
+        else:  # Excel files
+            logger.debug("Reading Excel file")
+            df = pd.read_excel(file_path)
+        
+        rows, cols = df.shape
+        logger.info(f"Tabular file has {rows} rows and {cols} columns")
+        
+        # Check for empty dataframe
+        if rows == 0 or cols == 0:
+            logger.warning(f"Tabular file {file_path} appears to be empty")
+        
+        # Convert DataFrame to a text representation
+        text = df.to_string(index=False)
+        logger.info(f"Tabular extraction complete for {file_path}")
+        return text
+    except Exception as e:
+        logger.error(f"Failed to extract text from tabular file {file_path}: {str(e)}")
+        raise
 
 def chunk_text(text: str, chunk_size: int = 1000, overlap: int = 200) -> List[str]:
     """Split text into chunks with overlap"""
+    logger.info(f"Starting text chunking with chunk_size={chunk_size}, overlap={overlap}")
+    
     if not text:
+        logger.warning("Empty text provided for chunking, returning empty list")
         return []
     
-    # Clean and normalize text
-    text = re.sub(r'\s+', ' ', text).strip()
+    # Log input text stats
+    text_length = len(text)
+    logger.info(f"Input text length: {text_length} characters")
     
-    chunks = []
-    for i in range(0, len(text), chunk_size - overlap):
-        chunk = text[i:i + chunk_size]
-        if chunk:
-            chunks.append(chunk)
+    # Parameter validation
+    if chunk_size <= 0:
+        logger.error(f"Invalid chunk_size: {chunk_size}. Must be positive.")
+        raise ValueError(f"chunk_size must be positive, got {chunk_size}")
     
-    return chunks
+    if overlap < 0:
+        logger.error(f"Invalid overlap: {overlap}. Must be non-negative.")
+        raise ValueError(f"overlap must be non-negative, got {overlap}")
+    
+    if overlap >= chunk_size:
+        logger.error(f"Overlap ({overlap}) must be less than chunk_size ({chunk_size})")
+        raise ValueError(f"overlap ({overlap}) must be less than chunk_size ({chunk_size})")
+    
+    try:
+        # Clean and normalize text
+        logger.debug("Cleaning and normalizing text")
+        original_length = len(text)
+        text = re.sub(r'\s+', ' ', text).strip()
+        normalized_length = len(text)
+        
+        if original_length != normalized_length:
+            logger.debug(f"Text normalized: {original_length} → {normalized_length} characters")
+        
+        # Calculate expected number of chunks
+        effective_chunk_size = chunk_size - overlap
+        expected_chunks = max(1, int((len(text) - overlap) / effective_chunk_size) + (1 if (len(text) - overlap) % effective_chunk_size > 0 else 0))
+        logger.debug(f"Expected number of chunks: ~{expected_chunks}")
+        
+        chunks = []
+        for i in range(0, len(text), chunk_size - overlap):
+            chunk = text[i:i + chunk_size]
+            if chunk:
+                chunks.append(chunk)
+                logger.debug(f"Created chunk {len(chunks)}: {len(chunk)} characters, starting with '{chunk[:20]}...'")
+            else:
+                logger.warning(f"Empty chunk created at position {i}, skipping")
+        
+        # Log chunking results
+        logger.info(f"Text chunking complete. Created {len(chunks)} chunks")
+        
+        # Check for any unusually small chunks
+        small_chunks = [i for i, chunk in enumerate(chunks) if len(chunk) < chunk_size * 0.5 and i != len(chunks) - 1]
+        if small_chunks:
+            logger.warning(f"Some non-final chunks are unusually small: {small_chunks}")
+        
+        return chunks
+        
+    except Exception as e:
+        logger.error(f"Error during text chunking: {str(e)}", exc_info=True)
+        raise
