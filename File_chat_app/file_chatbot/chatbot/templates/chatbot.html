@@ -158,55 +158,57 @@
                 alert('An error occurred during the process.');
             }
             },
+            
+            async sendMessage() {
+            const message = this.userInput.trim();
+            if (message === '') return;
 
+            // 1) show the user's message immediately
+            this.messages.push({ sender: 'user', text: message });
+            this.userInput = '';
 
+            // 2) grab the session ID you saved earlier
+            const sessionId = Alpine.store('chat').sessionId;
+            if (!sessionId) {
+                alert('Please start a chat session first.');
+                return;
+            }
 
-        sendMessage() {
-        const message = this.userInput.trim();
-        if (message === '') return;
-
-        // 1) show the user’s message immediately
-        this.messages.push({ sender: 'user', text: message });
-        this.userInput = '';
-
-        // 2) grab the session ID you saved earlier
-        const sessionId = Alpine.store('chat').sessionId;
-        if (!sessionId) {
-            alert('Please start a chat session first.');
-            return;
-        }
-
-        // 3) call your real /ask/ endpoint
-        fetch(`/api/chat-sessions/${sessionId}/ask/`, {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            // if you need auth:
-            'Authorization': `Basic ${btoa('Raj:tango1234')}`
-            },
-            body: JSON.stringify({ question: message })
-        })
-            .then(res => {
-            if (!res.ok) throw new Error(res.statusText);
-            return res.json();
-            })
-            .then(data => {
-            // 4) push the real bot answer into your chat
-            this.messages.push({ sender: 'bot', text: data.answer });
-            this.$nextTick(() => {
-                const chatWindow = document.getElementById('chatWindow');
-                chatWindow.scrollTop = chatWindow.scrollHeight;
-            });
-            })
-            .catch(err => {
-            console.error('Ask API error:', err);
-            this.messages.push({ sender: 'bot', text: 'Sorry, something went wrong.' });
-            this.$nextTick(() => {
-                const chatWindow = document.getElementById('chatWindow');
-                chatWindow.scrollTop = chatWindow.scrollHeight;
-            });
-            });
+            try {
+                console.log("response started")
+                // 3) call your real /ask/ endpoint
+                const response = await fetch(`/api/chat-sessions/${sessionId}/ask/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // if you need auth:
+                        'Authorization': `Basic ${btoa('Raj:tango1234')}`
+                    },
+                    body: JSON.stringify({ question: message })
+                });
+                console.log("requested ended")
+                if (!response.ok) throw new Error(response.statusText);
+                
+                const data = await response.json();
+                console.log("data:", data);
+                
+                // 4) push the real bot answer into your chat
+                this.messages.push({ sender: 'bot', text: data.assistant_message.content });
+                this.$nextTick(() => {
+                    const chatWindow = document.getElementById('chatWindow');
+                    chatWindow.scrollTop = chatWindow.scrollHeight;
+                });
+            } catch (err) {
+                console.error('Ask API error:', err);
+                this.messages.push({ sender: 'bot', text: 'Sorry, something went wrong.' });
+                this.$nextTick(() => {
+                    const chatWindow = document.getElementById('chatWindow');
+                    chatWindow.scrollTop = chatWindow.scrollHeight;
+                });
+            }
 }
+
+        
 
       }
     }
