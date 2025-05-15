@@ -96,69 +96,69 @@
           this.selectedFile = file;
           // Further file processing can be implemented here
         },
-        submitFile() {
+        async submitFile() {
             if (!this.selectedFile) {
                 alert('Please select a file before submitting.');
                 return;
             }
-
+            
             const username = 'Raj';
             const password = 'tango1234';
             const credentials = btoa(`${username}:${password}`);
-
+            
             const formData = new FormData();
             formData.append('title', 'Sample Document');
             formData.append('file', this.selectedFile);
             formData.append('content_type', 'application/pdf');
-
-            fetch('/api/documents/', {
+            
+            try {
+                // Step 1: Upload document
+                const documentResponse = await fetch('/api/documents/', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Basic ${credentials}`
                     // Note: Do not set the 'Content-Type' header manually when using FormData.
                 },
                 body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Document upload failed: ${response.statusText}`);
+                });
+            
+                if (!documentResponse.ok) {
+                throw new Error(`Document upload failed: ${documentResponse.statusText}`);
                 }
-                return response.json();
-            })
-            .then(documentData => {
+            
+                const documentData = await documentResponse.json();
                 const documentId = documentData.id;
                 console.log('Document uploaded successfully:', documentData);
-                alert(`Document uploaded successfully:`);
-                // Now initiate the chat session with the obtained document ID
-                return fetch('/api/chat-sessions/', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Basic ${credentials}`
-                            // 'Content-Type': 'application/json',
-                          
-                        },
-                        body: JSON.stringify({ document: documentId })
-                        });
-                        })
-                        .then(data => {
-                                // Save globally so Send-button handler can read it
-                                Alpine.store('chat').sessionId = data.id;
-                            })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`Chat session creation failed: ${response.statusText}`);
-                            }
-                            return response.json();
-                        })
-                        .then(chatSessionData => {
-                            console.log('Chat session created:', chatSessionData);
-                            alert(`Chat session started! Session ID: ${chatSessionData.id}`);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('An error occurred during the process.');
-                        });
-                    },
+                alert('Document uploaded successfully');
+            
+                // Step 2: Create chat session with the document ID
+                const chatSessionResponse = await fetch('/api/chat-sessions/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Basic ${credentials}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ document: documentId })
+                });
+            
+                if (!chatSessionResponse.ok) {
+                throw new Error(`Chat session creation failed: ${chatSessionResponse.statusText}`);
+                }
+            
+                const chatSessionData = await chatSessionResponse.json();
+            
+                // Save globally so Send-button handler can read it
+                Alpine.store('chat').sessionId = chatSessionData.id;
+            
+                console.log('Chat session created:', chatSessionData);
+                alert(`Chat session started! Session ID: ${chatSessionData.id}`);
+            
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred during the process.');
+            }
+            },
+
 
 
         sendMessage() {

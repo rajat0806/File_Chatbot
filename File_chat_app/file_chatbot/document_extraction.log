@@ -3312,3 +3312,56 @@ ValueError: Cannot assign "<django.contrib.auth.models.AnonymousUser object at 0
 2025-05-15 17:34:20,844 - document_storage - INFO - Document chunk storage process completed in 1.39 seconds for document ID: 32
 2025-05-15 17:34:20,844 - document_storage - INFO - Document processing complete for ID: 32
 2025-05-15 17:34:26,406 - root - INFO - Creating a new chat session for user Raj
+2025-05-15 17:44:45,749 - django.request - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-05-15 17:44:55,093 - document_storage - INFO - Creating new document for user ID: 2
+2025-05-15 17:44:55,097 - document_storage - INFO - Document saved with ID: 33
+2025-05-15 17:44:55,097 - document_storage - INFO - Processing file: dummy-pdf_2_Fctbgqx.pdf, size: 7.30 KB, type: pdf
+2025-05-15 17:44:55,097 - document_storage - INFO - Extracting text from file: /Users/rajatmittal/Personal Projects/File_chat_app/file_chatbot/media/documents/dummy-pdf_2_Fctbgqx.pdf
+2025-05-15 17:44:55,098 - document_extraction - INFO - Starting text extraction for file: /Users/rajatmittal/Personal Projects/File_chat_app/file_chatbot/media/documents/dummy-pdf_2_Fctbgqx.pdf
+2025-05-15 17:44:55,098 - document_extraction - INFO - File type: .pdf, Size: 0.01 MB
+2025-05-15 17:44:55,098 - document_extraction - INFO - Extracting text from PDF: /Users/rajatmittal/Personal Projects/File_chat_app/file_chatbot/media/documents/dummy-pdf_2_Fctbgqx.pdf
+2025-05-15 17:44:55,098 - document_extraction - INFO - PDF has 1 pages
+2025-05-15 17:44:55,099 - document_extraction - INFO - PDF extraction complete for /Users/rajatmittal/Personal Projects/File_chat_app/file_chatbot/media/documents/dummy-pdf_2_Fctbgqx.pdf
+2025-05-15 17:44:55,099 - document_extraction - INFO - Successfully extracted text from /Users/rajatmittal/Personal Projects/File_chat_app/file_chatbot/media/documents/dummy-pdf_2_Fctbgqx.pdf
+2025-05-15 17:44:55,099 - document_storage - INFO - Text extraction complete. Extracted 20 characters
+2025-05-15 17:44:55,099 - document_storage - INFO - Chunking text for document ID: 33
+2025-05-15 17:44:55,099 - document_extraction - INFO - Starting text chunking with chunk_size=1000, overlap=200
+2025-05-15 17:44:55,099 - document_extraction - INFO - Input text length: 20 characters
+2025-05-15 17:44:55,099 - document_extraction - INFO - Text chunking complete. Created 1 chunks
+2025-05-15 17:44:55,099 - document_storage - INFO - Text chunking complete. Created 1 chunks
+2025-05-15 17:44:55,099 - document_storage - INFO - Generating embeddings and storing chunks for document ID: 33
+2025-05-15 17:44:55,099 - document_storage - INFO - Starting to store chunks for document ID: 33, Title: Sample Document
+2025-05-15 17:44:55,099 - document_storage - INFO - Processing 1 chunks to store in database
+2025-05-15 17:44:55,099 - document_storage - INFO - Generating embeddings for 1 chunks
+2025-05-15 17:44:55,099 - document_storage - INFO - Generating embeddings for 1 texts (~3 tokens)
+2025-05-15 17:44:55,099 - document_storage - INFO - Using embedding model: text-embedding-3-small
+2025-05-15 17:44:56,019 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-05-15 17:44:56,022 - document_storage - INFO - OpenAI API request completed in 0.92 seconds
+2025-05-15 17:44:56,022 - document_storage - INFO - Generated 1 embeddings with dimension 1536
+2025-05-15 17:44:56,022 - document_storage - INFO - Token usage: 3 prompt tokens, 3 total tokens
+2025-05-15 17:44:56,022 - document_storage - INFO - Embedding generation completed in 0.92 seconds (1.08 texts/second)
+2025-05-15 17:44:56,022 - document_storage - INFO - Successfully generated 1 embeddings in 0.92 seconds
+2025-05-15 17:44:56,022 - document_storage - INFO - Storing chunks and embeddings in database
+2025-05-15 17:44:56,035 - document_storage - INFO - Successfully stored 1 chunks in 0.01 seconds
+2025-05-15 17:44:56,035 - document_storage - INFO - Marking document ID: 33 as processed
+2025-05-15 17:44:56,037 - document_storage - INFO - Document ID: 33 successfully marked as processed
+2025-05-15 17:44:56,039 - document_storage - INFO - Document chunk storage process completed in 0.94 seconds for document ID: 33
+2025-05-15 17:44:56,052 - document_storage - INFO - Document processing complete for ID: 33
+2025-05-15 17:45:01,232 - root - INFO - Creating a new chat session for user Raj
+2025-05-15 17:45:23,692 - root - INFO - Fetching chat sessions for user Raj
+2025-05-15 17:45:23,695 - root - INFO - Received a question for ChatSession ID 15
+2025-05-15 17:45:23,695 - root - INFO - Question: how many words are there in the file
+2025-05-15 17:45:23,698 - root - INFO - Running similarity search for document_id=33, top_k=5
+2025-05-15 17:45:23,698 - document_storage - INFO - Generating embeddings for 1 texts (~8 tokens)
+2025-05-15 17:45:23,699 - document_storage - INFO - Using embedding model: text-embedding-3-small
+2025-05-15 17:45:24,621 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-05-15 17:45:24,623 - document_storage - INFO - OpenAI API request completed in 0.92 seconds
+2025-05-15 17:45:24,623 - document_storage - INFO - Generated 1 embeddings with dimension 1536
+2025-05-15 17:45:24,623 - document_storage - INFO - Token usage: 8 prompt tokens, 8 total tokens
+2025-05-15 17:45:24,623 - document_storage - INFO - Embedding generation completed in 0.92 seconds (1.08 texts/second)
+2025-05-15 17:45:24,628 - root - INFO - Retrieved 1 chunks for document_id=33
+2025-05-15 17:45:24,631 - root - INFO - Top similarity score: 0.2054258048063915
+2025-05-15 17:45:24,631 - root - INFO - Returning top 1 chunks
+2025-05-15 17:45:24,631 - root - INFO - Found 1 relevant chunks
+2025-05-15 17:45:25,916 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-15 17:45:25,923 - root - INFO - Generated response using OpenAI
