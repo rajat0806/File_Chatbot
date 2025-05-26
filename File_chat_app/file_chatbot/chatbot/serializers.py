@@ -1,17 +1,17 @@
 from rest_framework import serializers
-from .models import Document, DocumentChunk, ChatSession, ChatMessage
+from .models import Document, ChatSession, ChatMessage
 
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
-        fields = ['id', 'title', 'file', 'content_type', 'uploaded_at', 'processed']
-        read_only_fields = ['uploaded_by', 'processed']
+        fields = ['id', 'title', 'file', 'content_type', 'uploaded_at', 'processed', 'extracted_text']
+        read_only_fields = ['uploaded_by', 'processed', 'extracted_text']
 
-class DocumentChunkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DocumentChunk
-        fields = ['id', 'document', 'content', 'chunk_index']
-        read_only_fields = ['embedding']
+# class DocumentChunkSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = DocumentChunk
+#         fields = ['id', 'document', 'content', 'chunk_index']
+#         read_only_fields = ['embedding']
 
 class ChatMessageSerializer(serializers.ModelSerializer):
     class Meta:
