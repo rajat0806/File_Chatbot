@@ -3780,3 +3780,118 @@ ValueError: Cannot assign "<django.contrib.auth.models.AnonymousUser object at 0
 2025-05-26 06:58:44,399 - chatbot.views - INFO - Generating assistant response for session 29
 2025-05-26 06:58:47,201 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 2025-05-26 06:58:47,206 - chatbot.views - INFO - Assistant response generated for session 29: 'The document is a contract for software programming services between Lunar Logic Polska, Sp. z o.o. ...'
+2025-05-26 09:08:46,412 - chatbot.views - INFO - Rendering chatbot UI
+2025-05-26 09:08:56,280 - chatbot.views - INFO - Attempting to create document for user: Raj
+2025-05-26 09:08:56,288 - chatbot.views - INFO - Processing file: OnePageContract_WPaDJJa.pdf, size: 34.76 KB, type: pdf
+2025-05-26 09:08:56,288 - chatbot.views - INFO - Extracting text from file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_WPaDJJa.pdf
+2025-05-26 09:08:56,288 - document_extraction - INFO - Starting text extraction for file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_WPaDJJa.pdf
+2025-05-26 09:08:56,288 - document_extraction - INFO - File type: .pdf, Size: 0.03 MB
+2025-05-26 09:08:56,288 - document_extraction - INFO - Extracting text from PDF: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_WPaDJJa.pdf
+2025-05-26 09:08:56,288 - document_extraction - INFO - PDF has 1 pages
+2025-05-26 09:08:56,301 - document_extraction - INFO - PDF extraction complete for /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_WPaDJJa.pdf
+2025-05-26 09:08:56,301 - document_extraction - INFO - Successfully extracted text from /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_WPaDJJa.pdf
+2025-05-26 09:08:56,301 - chatbot.views - INFO - Text extraction complete. Extracted 2491 characters for document ID: 50
+2025-05-26 09:08:56,301 - chatbot.views - INFO - Storing full text for document ID: 50
+2025-05-26 09:08:56,301 - document_storage - INFO - Starting to store full text for document ID: 50, Title: Sample Document
+2025-05-26 09:08:56,301 - document_storage - INFO - Storing full text in database for document ID: 50
+2025-05-26 09:08:56,311 - document_storage - INFO - Successfully stored full text in 0.01 seconds for document ID: 50
+2025-05-26 09:08:56,312 - document_storage - INFO - Full text storage completed in 0.01 seconds for document ID: 50
+2025-05-26 09:08:56,312 - chatbot.views - INFO - Document processing complete for ID: 50
+2025-05-26 09:08:58,120 - chatbot.views - INFO - Creating new chat session for user: Raj
+2025-05-26 09:09:25,093 - chatbot.views - INFO - Fetching chat sessions for authenticated user: Raj
+2025-05-26 09:09:25,095 - chatbot.views - INFO - Received message from user Raj for session 30: 'Who are the parties in the contract'
+2025-05-26 09:09:25,099 - chatbot.views - INFO - Generating assistant response for session 30
+2025-05-26 09:09:25,702 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2025-05-26 09:09:25,703 - chatbot.views - ERROR - Error during message processing for session 30: Error code: 401 - {'error': {'message': 'Incorrect API key provided: your_ope************here. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+Traceback (most recent call last):
+  File "/Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/chatbot/views.py", line 145, in ask
+    assistant_response_content = generate_chat_completion(user_message_content, context)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/chatbot/services/openai_service.py", line 24, in generate_chat_completion
+    response = client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajatmittal/Personal Projects/File_chat_app/venv/lib/python3.12/site-packages/openai/_utils/_utils.py", line 272, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajatmittal/Personal Projects/File_chat_app/venv/lib/python3.12/site-packages/openai/resources/chat/completions.py", line 645, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/Users/rajatmittal/Personal Projects/File_chat_app/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1088, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajatmittal/Personal Projects/File_chat_app/venv/lib/python3.12/site-packages/openai/_base_client.py", line 853, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/Users/rajatmittal/Personal Projects/File_chat_app/venv/lib/python3.12/site-packages/openai/_base_client.py", line 930, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.AuthenticationError: Error code: 401 - {'error': {'message': 'Incorrect API key provided: your_ope************here. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+2025-05-26 09:09:25,710 - django.request - ERROR - Internal Server Error: /api/chat-sessions/30/ask/
+2025-05-26 09:10:08,992 - chatbot.views - INFO - Rendering chatbot UI
+2025-05-26 09:10:21,397 - chatbot.views - INFO - Attempting to create document for user: Raj
+2025-05-26 09:10:21,403 - chatbot.views - INFO - Processing file: OnePageContract_Y08FZDW.pdf, size: 34.76 KB, type: pdf
+2025-05-26 09:10:21,403 - chatbot.views - INFO - Extracting text from file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_Y08FZDW.pdf
+2025-05-26 09:10:21,403 - document_extraction - INFO - Starting text extraction for file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_Y08FZDW.pdf
+2025-05-26 09:10:21,403 - document_extraction - INFO - File type: .pdf, Size: 0.03 MB
+2025-05-26 09:10:21,403 - document_extraction - INFO - Extracting text from PDF: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_Y08FZDW.pdf
+2025-05-26 09:10:21,404 - document_extraction - INFO - PDF has 1 pages
+2025-05-26 09:10:21,487 - document_extraction - INFO - PDF extraction complete for /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_Y08FZDW.pdf
+2025-05-26 09:10:21,488 - document_extraction - INFO - Successfully extracted text from /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_Y08FZDW.pdf
+2025-05-26 09:10:21,488 - chatbot.views - INFO - Text extraction complete. Extracted 2491 characters for document ID: 51
+2025-05-26 09:10:21,488 - chatbot.views - INFO - Storing full text for document ID: 51
+2025-05-26 09:10:21,488 - document_storage - INFO - Starting to store full text for document ID: 51, Title: Sample Document
+2025-05-26 09:10:21,488 - document_storage - INFO - Storing full text in database for document ID: 51
+2025-05-26 09:10:21,490 - document_storage - INFO - Successfully stored full text in 0.00 seconds for document ID: 51
+2025-05-26 09:10:21,490 - document_storage - INFO - Full text storage completed in 0.00 seconds for document ID: 51
+2025-05-26 09:10:21,490 - chatbot.views - INFO - Document processing complete for ID: 51
+2025-05-26 09:10:23,134 - chatbot.views - INFO - Creating new chat session for user: Raj
+2025-05-26 09:10:35,899 - chatbot.views - INFO - Fetching chat sessions for authenticated user: Raj
+2025-05-26 09:10:35,901 - chatbot.views - INFO - Received message from user Raj for session 31: 'Who are the party in the contract'
+2025-05-26 09:10:35,905 - chatbot.views - INFO - Generating assistant response for session 31
+2025-05-26 09:10:36,468 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2025-05-26 09:10:36,469 - chatbot.views - ERROR - Error during message processing for session 31: Error code: 401 - {'error': {'message': 'Incorrect API key provided: your_ope************here. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+Traceback (most recent call last):
+  File "/Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/chatbot/views.py", line 145, in ask
+    assistant_response_content = generate_chat_completion(user_message_content, context)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/chatbot/services/openai_service.py", line 24, in generate_chat_completion
+    response = client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajatmittal/Personal Projects/File_chat_app/venv/lib/python3.12/site-packages/openai/_utils/_utils.py", line 272, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajatmittal/Personal Projects/File_chat_app/venv/lib/python3.12/site-packages/openai/resources/chat/completions.py", line 645, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/Users/rajatmittal/Personal Projects/File_chat_app/venv/lib/python3.12/site-packages/openai/_base_client.py", line 1088, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rajatmittal/Personal Projects/File_chat_app/venv/lib/python3.12/site-packages/openai/_base_client.py", line 853, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/Users/rajatmittal/Personal Projects/File_chat_app/venv/lib/python3.12/site-packages/openai/_base_client.py", line 930, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.AuthenticationError: Error code: 401 - {'error': {'message': 'Incorrect API key provided: your_ope************here. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+2025-05-26 09:10:36,471 - django.request - ERROR - Internal Server Error: /api/chat-sessions/31/ask/
+2025-05-26 09:11:00,228 - chatbot.views - INFO - Rendering chatbot UI
+2025-05-26 09:11:12,002 - chatbot.views - INFO - Attempting to create document for user: Raj
+2025-05-26 09:11:12,007 - chatbot.views - INFO - Processing file: sample-terms-conditions-agreement_0SbPELn.pdf, size: 86.30 KB, type: pdf
+2025-05-26 09:11:12,007 - chatbot.views - INFO - Extracting text from file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/sample-terms-conditions-agreement_0SbPELn.pdf
+2025-05-26 09:11:12,007 - document_extraction - INFO - Starting text extraction for file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/sample-terms-conditions-agreement_0SbPELn.pdf
+2025-05-26 09:11:12,007 - document_extraction - INFO - File type: .pdf, Size: 0.08 MB
+2025-05-26 09:11:12,007 - document_extraction - INFO - Extracting text from PDF: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/sample-terms-conditions-agreement_0SbPELn.pdf
+2025-05-26 09:11:12,007 - document_extraction - INFO - PDF has 9 pages
+2025-05-26 09:11:12,214 - document_extraction - INFO - PDF extraction complete for /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/sample-terms-conditions-agreement_0SbPELn.pdf
+2025-05-26 09:11:12,214 - document_extraction - INFO - Successfully extracted text from /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/sample-terms-conditions-agreement_0SbPELn.pdf
+2025-05-26 09:11:12,214 - chatbot.views - INFO - Text extraction complete. Extracted 22183 characters for document ID: 52
+2025-05-26 09:11:12,214 - chatbot.views - INFO - Storing full text for document ID: 52
+2025-05-26 09:11:12,214 - document_storage - INFO - Starting to store full text for document ID: 52, Title: Sample Document
+2025-05-26 09:11:12,214 - document_storage - INFO - Storing full text in database for document ID: 52
+2025-05-26 09:11:12,220 - document_storage - INFO - Successfully stored full text in 0.01 seconds for document ID: 52
+2025-05-26 09:11:12,220 - document_storage - INFO - Full text storage completed in 0.01 seconds for document ID: 52
+2025-05-26 09:11:12,220 - chatbot.views - INFO - Document processing complete for ID: 52
+2025-05-26 09:11:13,308 - chatbot.views - INFO - Creating new chat session for user: Raj
+2025-05-26 09:11:26,271 - chatbot.views - INFO - Fetching chat sessions for authenticated user: Raj
+2025-05-26 09:11:26,273 - chatbot.views - INFO - Received message from user Raj for session 32: 'Who are the party in the contract'
+2025-05-26 09:11:26,277 - chatbot.views - INFO - Generating assistant response for session 32
+2025-05-26 09:11:30,036 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-26 09:11:30,040 - chatbot.views - INFO - Assistant response generated for session 32: 'The parties in the contract mentioned in the document are the individual accessing or using the Serv...'
