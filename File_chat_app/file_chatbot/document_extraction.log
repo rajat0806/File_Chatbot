@@ -3756,3 +3756,27 @@ ValueError: Cannot assign "<django.contrib.auth.models.AnonymousUser object at 0
 2025-05-26 06:42:00,667 - chatbot.views - INFO - Generating assistant response for session 28
 2025-05-26 06:42:02,732 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 2025-05-26 06:42:02,736 - chatbot.views - INFO - Assistant response generated for session 28: 'The document is a contract for software programming services between Lunar Logic Polska, Sp. z o.o. ...'
+2025-05-26 06:58:14,777 - chatbot.views - INFO - Rendering chatbot UI
+2025-05-26 06:58:15,706 - chatbot.views - INFO - Rendering chatbot UI
+2025-05-26 06:58:25,078 - chatbot.views - INFO - Attempting to create document for user: Raj
+2025-05-26 06:58:25,082 - chatbot.views - INFO - Processing file: OnePageContract_lbkpXfY.pdf, size: 34.76 KB, type: pdf
+2025-05-26 06:58:25,082 - chatbot.views - INFO - Extracting text from file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_lbkpXfY.pdf
+2025-05-26 06:58:25,082 - document_extraction - INFO - Starting text extraction for file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_lbkpXfY.pdf
+2025-05-26 06:58:25,082 - document_extraction - INFO - File type: .pdf, Size: 0.03 MB
+2025-05-26 06:58:25,082 - document_extraction - INFO - Extracting text from PDF: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_lbkpXfY.pdf
+2025-05-26 06:58:25,083 - document_extraction - INFO - PDF has 1 pages
+2025-05-26 06:58:25,094 - document_extraction - INFO - PDF extraction complete for /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_lbkpXfY.pdf
+2025-05-26 06:58:25,094 - document_extraction - INFO - Successfully extracted text from /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_lbkpXfY.pdf
+2025-05-26 06:58:25,094 - chatbot.views - INFO - Text extraction complete. Extracted 2491 characters for document ID: 49
+2025-05-26 06:58:25,094 - chatbot.views - INFO - Storing full text for document ID: 49
+2025-05-26 06:58:25,094 - document_storage - INFO - Starting to store full text for document ID: 49, Title: Sample Document
+2025-05-26 06:58:25,094 - document_storage - INFO - Storing full text in database for document ID: 49
+2025-05-26 06:58:25,096 - document_storage - INFO - Successfully stored full text in 0.00 seconds for document ID: 49
+2025-05-26 06:58:25,096 - document_storage - INFO - Full text storage completed in 0.00 seconds for document ID: 49
+2025-05-26 06:58:25,096 - chatbot.views - INFO - Document processing complete for ID: 49
+2025-05-26 06:58:27,675 - chatbot.views - INFO - Creating new chat session for user: Raj
+2025-05-26 06:58:44,393 - chatbot.views - INFO - Fetching chat sessions for authenticated user: Raj
+2025-05-26 06:58:44,395 - chatbot.views - INFO - Received message from user Raj for session 29: 'Give me the summary of the document'
+2025-05-26 06:58:44,399 - chatbot.views - INFO - Generating assistant response for session 29
+2025-05-26 06:58:47,201 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-26 06:58:47,206 - chatbot.views - INFO - Assistant response generated for session 29: 'The document is a contract for software programming services between Lunar Logic Polska, Sp. z o.o. ...'
