@@ -3678,3 +3678,81 @@ ValueError: Cannot assign "<django.contrib.auth.models.AnonymousUser object at 0
 2025-05-15 19:11:37,052 - root - INFO - Found 4 relevant chunks
 2025-05-15 19:11:39,287 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 2025-05-15 19:11:39,289 - root - INFO - Generated response using OpenAI
+2025-05-26 06:30:46,317 - chatbot.views - INFO - Rendering chatbot UI
+2025-05-26 06:31:04,290 - chatbot.views - INFO - Attempting to create document for user: Raj
+2025-05-26 06:31:04,296 - chatbot.views - INFO - Processing file: OnePageContract_CrR9rJQ.pdf, size: 34.76 KB, type: .pdf
+2025-05-26 06:31:04,296 - chatbot.views - WARNING - Unsupported file type: .pdf. Allowed types: pdf, txt, docx, csv, xlsx
+2025-05-26 06:31:04,299 - chatbot.views - INFO - Document ID: None deleted due to unsupported file type
+2025-05-26 06:31:06,134 - django.request - WARNING - Bad Request: /api/chat-sessions/
+2025-05-26 06:32:40,357 - django.utils.autoreload - INFO - /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/chatbot/views.py changed, reloading.
+2025-05-26 06:33:03,166 - django.utils.autoreload - INFO - /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/chatbot/views.py changed, reloading.
+2025-05-26 06:34:05,872 - chatbot.views - INFO - Rendering chatbot UI
+2025-05-26 06:34:16,745 - chatbot.views - INFO - Attempting to create document for user: Raj
+2025-05-26 06:34:16,748 - chatbot.views - INFO - Processing file: OnePageContract_QsDZN41.pdf, size: 34.76 KB, type: pdf
+2025-05-26 06:34:16,748 - chatbot.views - INFO - Extracting text from file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_QsDZN41.pdf
+2025-05-26 06:34:16,748 - document_extraction - INFO - Starting text extraction for file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_QsDZN41.pdf
+2025-05-26 06:34:16,748 - document_extraction - INFO - File type: .pdf, Size: 0.03 MB
+2025-05-26 06:34:16,748 - document_extraction - INFO - Extracting text from PDF: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_QsDZN41.pdf
+2025-05-26 06:34:16,749 - document_extraction - INFO - PDF has 1 pages
+2025-05-26 06:34:16,759 - document_extraction - INFO - PDF extraction complete for /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_QsDZN41.pdf
+2025-05-26 06:34:16,759 - document_extraction - INFO - Successfully extracted text from /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_QsDZN41.pdf
+2025-05-26 06:34:16,759 - chatbot.views - INFO - Text extraction complete. Extracted 2491 characters for document ID: 46
+2025-05-26 06:34:16,759 - chatbot.views - INFO - Storing full text for document ID: 46
+2025-05-26 06:34:16,759 - document_storage - INFO - Starting to store full text for document ID: 46, Title: Sample Document
+2025-05-26 06:34:16,759 - document_storage - INFO - Storing full text in database for document ID: 46
+2025-05-26 06:34:16,761 - document_storage - INFO - Successfully stored full text in 0.00 seconds for document ID: 46
+2025-05-26 06:34:16,761 - document_storage - INFO - Full text storage completed in 0.00 seconds for document ID: 46
+2025-05-26 06:34:16,761 - chatbot.views - INFO - Document processing complete for ID: 46
+2025-05-26 06:34:18,341 - chatbot.views - INFO - Creating new chat session for user: Raj
+2025-05-26 06:34:34,937 - django.request - WARNING - Not Found: /api/chat-sessions/26/ask/
+2025-05-26 06:35:34,982 - django.utils.autoreload - INFO - /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/chatbot/views.py changed, reloading.
+2025-05-26 06:36:04,793 - django.utils.autoreload - INFO - /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/chatbot/views.py changed, reloading.
+2025-05-26 06:37:03,304 - chatbot.views - INFO - Rendering chatbot UI
+2025-05-26 06:37:04,449 - chatbot.views - INFO - Rendering chatbot UI
+2025-05-26 06:37:13,346 - chatbot.views - INFO - Attempting to create document for user: Raj
+2025-05-26 06:37:13,350 - chatbot.views - INFO - Processing file: OnePageContract_aC9Q0SL.pdf, size: 34.76 KB, type: pdf
+2025-05-26 06:37:13,350 - chatbot.views - INFO - Extracting text from file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_aC9Q0SL.pdf
+2025-05-26 06:37:13,350 - document_extraction - INFO - Starting text extraction for file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_aC9Q0SL.pdf
+2025-05-26 06:37:13,350 - document_extraction - INFO - File type: .pdf, Size: 0.03 MB
+2025-05-26 06:37:13,350 - document_extraction - INFO - Extracting text from PDF: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_aC9Q0SL.pdf
+2025-05-26 06:37:13,350 - document_extraction - INFO - PDF has 1 pages
+2025-05-26 06:37:13,360 - document_extraction - INFO - PDF extraction complete for /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_aC9Q0SL.pdf
+2025-05-26 06:37:13,360 - document_extraction - INFO - Successfully extracted text from /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_aC9Q0SL.pdf
+2025-05-26 06:37:13,360 - chatbot.views - INFO - Text extraction complete. Extracted 2491 characters for document ID: 47
+2025-05-26 06:37:13,360 - chatbot.views - INFO - Storing full text for document ID: 47
+2025-05-26 06:37:13,360 - document_storage - INFO - Starting to store full text for document ID: 47, Title: Sample Document
+2025-05-26 06:37:13,360 - document_storage - INFO - Storing full text in database for document ID: 47
+2025-05-26 06:37:13,363 - document_storage - INFO - Successfully stored full text in 0.00 seconds for document ID: 47
+2025-05-26 06:37:13,363 - document_storage - INFO - Full text storage completed in 0.00 seconds for document ID: 47
+2025-05-26 06:37:13,363 - chatbot.views - INFO - Document processing complete for ID: 47
+2025-05-26 06:37:15,075 - chatbot.views - INFO - Creating new chat session for user: Raj
+2025-05-26 06:37:26,558 - chatbot.views - INFO - Fetching chat sessions for authenticated user: Raj
+2025-05-26 06:37:26,561 - chatbot.views - INFO - Received message from user Raj for session 27: 'Give me the summary of the document'
+2025-05-26 06:37:26,565 - chatbot.views - INFO - Generating assistant response for session 27
+2025-05-26 06:37:31,514 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-26 06:37:31,521 - chatbot.views - INFO - Assistant response generated for session 27: 'The document is a contract for software programming services between Lunar Logic Polska, Sp. z o.o. ...'
+2025-05-26 06:40:17,874 - django.utils.autoreload - INFO - /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/chatbot/views.py changed, reloading.
+2025-05-26 06:41:27,849 - chatbot.views - INFO - Rendering chatbot UI
+2025-05-26 06:41:28,643 - chatbot.views - INFO - Rendering chatbot UI
+2025-05-26 06:41:44,272 - chatbot.views - INFO - Attempting to create document for user: Raj
+2025-05-26 06:41:44,276 - chatbot.views - INFO - Processing file: OnePageContract_go7d4b9.pdf, size: 34.76 KB, type: pdf
+2025-05-26 06:41:44,276 - chatbot.views - INFO - Extracting text from file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_go7d4b9.pdf
+2025-05-26 06:41:44,276 - document_extraction - INFO - Starting text extraction for file: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_go7d4b9.pdf
+2025-05-26 06:41:44,276 - document_extraction - INFO - File type: .pdf, Size: 0.03 MB
+2025-05-26 06:41:44,276 - document_extraction - INFO - Extracting text from PDF: /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_go7d4b9.pdf
+2025-05-26 06:41:44,277 - document_extraction - INFO - PDF has 1 pages
+2025-05-26 06:41:44,286 - document_extraction - INFO - PDF extraction complete for /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_go7d4b9.pdf
+2025-05-26 06:41:44,287 - document_extraction - INFO - Successfully extracted text from /Users/rajatmittal/Screener assignment 1/Filebot_app/File_Chatbot/File_chat_app/file_chatbot/media/documents/OnePageContract_go7d4b9.pdf
+2025-05-26 06:41:44,287 - chatbot.views - INFO - Text extraction complete. Extracted 2491 characters for document ID: 48
+2025-05-26 06:41:44,287 - chatbot.views - INFO - Storing full text for document ID: 48
+2025-05-26 06:41:44,287 - document_storage - INFO - Starting to store full text for document ID: 48, Title: Sample Document
+2025-05-26 06:41:44,287 - document_storage - INFO - Storing full text in database for document ID: 48
+2025-05-26 06:41:44,288 - document_storage - INFO - Successfully stored full text in 0.00 seconds for document ID: 48
+2025-05-26 06:41:44,288 - document_storage - INFO - Full text storage completed in 0.00 seconds for document ID: 48
+2025-05-26 06:41:44,288 - chatbot.views - INFO - Document processing complete for ID: 48
+2025-05-26 06:41:46,086 - chatbot.views - INFO - Creating new chat session for user: Raj
+2025-05-26 06:42:00,661 - chatbot.views - INFO - Fetching chat sessions for authenticated user: Raj
+2025-05-26 06:42:00,663 - chatbot.views - INFO - Received message from user Raj for session 28: 'Give me the summary of the document'
+2025-05-26 06:42:00,667 - chatbot.views - INFO - Generating assistant response for session 28
+2025-05-26 06:42:02,732 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-26 06:42:02,736 - chatbot.views - INFO - Assistant response generated for session 28: 'The document is a contract for software programming services between Lunar Logic Polska, Sp. z o.o. ...'
